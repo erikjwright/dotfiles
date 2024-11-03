@@ -113,6 +113,10 @@ PROJECT_PATHS=(~/Code)
 alias l="ls -la"
 alias vim=nvim
 
+git init --bare $HOME/.dotfiles
+alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+dotfiles config status.showUntrackedFiles no
+
 git config --global alias.co checkout
 git config --global alias.br branch
 git config --global alias.ci commit
