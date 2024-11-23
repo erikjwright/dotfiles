@@ -21,7 +21,6 @@ vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.splitkeep = "cursor"
 
-vim.opt.clipboard = "unnamedplus"
 vim.opt.mouse = "a"
 
 vim.opt.swapfile = false
