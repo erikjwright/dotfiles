@@ -13,47 +13,15 @@ if not vim.uv.fs_stat(lazypath) then
     os.exit(1)
   end
 end
+
 vim.opt.rtp:prepend(lazypath)
 
-vim.g.mapleader = " "
-vim.g.maplocalleader = "\\"
-
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.expandtab = true
-vim.opt.smartindent = true
-vim.opt.autoindent = true
-vim.opt.wrap = false
-vim.opt.cursorline = true
-vim.opt.showmode = false
-
-vim.opt.number = true
-vim.opt.relativenumber = true
-vim.opt.signcolumn = "yes"
-vim.opt.completeopt = "menu,menuone,noselect"
-
-vim.api.nvim_create_autocmd("TextYankPost", {
-  group = vim.api.nvim_create_augroup("highlight_yank", {}),
-  desc = "Highlight yanked text",
-  pattern = "*",
-  callback = function()
-    vim.highlight.on_yank({ higroup = "IncSearch", timeout = 100 })
-  end,
-})
+require("config.autocmd")
+require("config.keymap")
+require("config.option")
 
 require("lazy").setup({
   spec = {
-    { "github/copilot.vim" },
-    {
-      "nvim-lualine/lualine.nvim",
-      dependencies = { "nvim-tree/nvim-web-devicons" },
-      config = function()
-        require("lualine").setup()
-      end,
-    },
-    { "folke/todo-comments.nvim", opts = {} },
-    { "rcarriga/nvim-notify" },
-    { "windwp/nvim-ts-autotag" },
     { import = "plugins" },
   },
   change_detection = {

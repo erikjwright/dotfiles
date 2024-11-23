@@ -5,12 +5,19 @@ alias l="eza -la"
 alias ls="eza"
 alias cd="z"
 
-plugins=(direnv zsh-autosuggestions zsh-history-substring-search)
+alias config='/usr/bin/git --git-dir=/Users/erik/.cfg/ --work-tree=/Users/erik'
+
+# plugins=(direnv zsh-autosuggestions zsh-history-substring-search)
 
 autoload -Uz compinit && compinit
 autoload predict-on
 
+bindkey '^[[A' up-line-or-search
+bindkey '^[[B' down-line-or-search
+
 setopt NO_BEEP
+
+ZVM_CURSOR_STYLE_ENABLED=false
 
 # homebrew
 PATH="/opt/homebrew/bin/direnv:$PATH"
@@ -39,14 +46,37 @@ case ":$PATH:" in
 esac
 # pnpm end
 
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/erik/.cache/lm-studio/bin"
+
 export STARSHIP_CONFIG=~/.config/starship/starship.toml
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
-eval "$(direnv hook zsh)"
+if [[ "${widgets[zle-keymap-select]#user:}" == "starship_zle-keymap-select" || \
+      "${widgets[zle-keymap-select]#user:}" == "starship_zle-keymap-select-wrapped" ]]; then
+    zle -N zle-keymap-select "";
+fi
 eval "$(starship init zsh)"
+eval "$(direnv hook zsh)"
 eval "$(zoxide init zsh)"
 
 . "$HOME/.cargo/env"
 . <(fzf --zsh)
+. $(brew --prefix)/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+. $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-alias config='/usr/bin/git --git-dir=/Users/erik/.cfg/ --work-tree=/Users/erik'
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/erik/.miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/erik/.miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/erik/.miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/erik/.miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+

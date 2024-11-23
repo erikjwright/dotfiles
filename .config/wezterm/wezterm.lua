@@ -1,6 +1,7 @@
 local wezterm = require("wezterm")
 local act = wezterm.action
 local config = {}
+
 local function is_vim(pane)
 	-- this is set by the plugin, and unset on ExitPre in Neovim
 	return pane:get_user_vars().IS_NVIM == "true"
@@ -58,7 +59,7 @@ config.keys = {
 	},
 	{
 		mods = "LEADER",
-		key = "m",
+		key = "z",
 		action = wezterm.action.TogglePaneZoomState,
 	},
 	{
@@ -85,7 +86,11 @@ config.enable_tab_bar = false
 config.font = wezterm.font("MesloLGM Nerd Font")
 config.font_size = 12.5
 config.scrollback_lines = 10000
+config.default_cursor_style = "BlinkingBlock"
+config.cursor_blink_ease_in = "Constant"
+config.cursor_blink_ease_out = "Constant"
 config.window_background_opacity = 0.98
 config.macos_window_background_blur = 75
+config.native_macos_fullscreen_mode = true
 
 return config
