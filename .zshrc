@@ -1,16 +1,12 @@
-# export CLICOLOR=1
-# export LSCOLORS=ExGxBxDxCxEgEdxbxgxcxd
-
 alias l="eza -la"
 alias ls="eza"
 alias cd="z"
 
 alias config='/usr/bin/git --git-dir=/Users/erik/.cfg/ --work-tree=/Users/erik'
 
-# plugins=(direnv zsh-autosuggestions zsh-history-substring-search)
-
 autoload -Uz compinit && compinit
 autoload predict-on
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 
 bindkey '^[[A' up-line-or-search
 bindkey '^[[B' down-line-or-search
@@ -68,6 +64,7 @@ eval "$(zoxide init zsh)"
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/Users/erik/.miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else

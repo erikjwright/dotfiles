@@ -29,13 +29,6 @@ return {
             vim.keymap.set("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
             vim.keymap.set("n", "lc", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
             vim.keymap.set("n", "<leader>=", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-
-            vim.lsp.handlers["textDocument/publishDiagnostics"] =
-                vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-                    virtual_text = false,
-                    signs = true,
-                    update_in_insert = false,
-                })
         end
 
         require("mason-lspconfig").setup({

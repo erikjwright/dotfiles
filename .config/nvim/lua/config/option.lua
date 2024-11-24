@@ -28,3 +28,6 @@ vim.opt.backup = false
 vim.opt.undofile = true
 
 vim.opt.updatetime = 50
+
+vim.opt.completeopt = 'menu,menuone,noselect,noinsert'
+

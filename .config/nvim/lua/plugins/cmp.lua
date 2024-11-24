@@ -17,6 +17,7 @@ return {
         local cmp = require("cmp")
 
         cmp.setup({
+            preselect = cmp.PreselectMode.None,
             sources = {
                 { name = "copilot" },
                 { name = "path" },
@@ -35,7 +36,7 @@ return {
                     i = cmp.mapping.abort(),
                     c = cmp.mapping.close(),
                 },
-                ["<cr>"] = cmp.mapping.confirm { select = true },
+                ["<c-y>"] = cmp.mapping.confirm { select = true },
             }),
             snippet = {
                 expand = function(args)
