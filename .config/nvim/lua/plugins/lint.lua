@@ -5,8 +5,19 @@ return {
         local lint = require("lint")
 
         lint.linters_by_ft = {
+            astro = { "biome" },
+            bash = { "shellcheck" },
+            go = { "golangci-lint" },
+            javascript = { "biome" },
+            json = { "jsonlint" },
+            lua = { "luacheck" },
             markdown = { "markdownlint" },
+            python = { "ruff" },
+            rust = { "clippy" },
+            toml = { "taplo" },
+            tsx = { "biome" },
             typescript = { "biome" },
+            yaml = { "yamllint" },
         }
 
         local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })

@@ -31,18 +31,9 @@ return {
                         mode = mode or "n"
                         vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
                     end
-                    --
-                    -- map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-                    -- map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-                    -- map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-                    -- map('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
-                    -- map('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
-                    -- map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
-                    -- map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
-                    -- map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-                    -- map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
 
                     local client = vim.lsp.get_client_by_id(event.data.client_id)
+
                     if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
                         local highlight_augroup =
                             vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
@@ -98,9 +89,30 @@ return {
                             completion = {
                                 callSnippet = "Replace",
                             },
+                            runtime = {
+                                -- Tell the language server which version of Lua you're using (most likely LuaJIT in Neovim)
+                                version = "LuaJIT",
+                                -- Setup your Lua path
+                                path = vim.split(package.path, ";"),
+                            },
+                            diagnostics = {
+                                -- Get the language server to recognize the `vim` global
+                                globals = { "vim" },
+                            },
+                            workspace = {
+                                -- Make the server aware of Neovim runtime files
+                                library = vim.api.nvim_get_runtime_file("", true),
+                                -- Prevent the server from complaining about too many files
+                                maxPreload = 10000,
+                                preloadFileSize = 10000,
+                            },
+                            telemetry = {
+                                enable = false, -- Do not send telemetry data
+                            },
                         },
                     },
                 },
+                zls = {},
             }
 
             require("mason").setup()
@@ -109,8 +121,19 @@ return {
 
             vim.list_extend(ensure_installed, {
                 "biome",
+                "clang-format",
+                "cpplint",
+                "gofumpt",
+                "golangci-lint",
+                "jsonlint",
+                "luacheck",
+                "markdownlint",
                 "ruff",
+                "shellcheck",
                 "stylua",
+                "taplo",
+                "yamlfmt",
+                "yamllint",
             })
 
             require("mason-tool-installer").setup({ ensure_installed = ensure_installed })

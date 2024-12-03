@@ -212,7 +212,42 @@ return {
         }) do
             dap.configurations[language] = {
                 {
-                    name = "Next.js: debug server-side",
+                    name = "NextJS: Full Stack",
+                    type = "pwa-node",
+                    request = "launch",
+                    program = function()
+                        if vim.fn.glob("node_modules/.bin/astro") ~= "" then
+                            return "${workspaceFolder}/node_modules/.bin/astro"
+                        elseif vim.fn.glob("node_modules/.bin/next") ~= "" then
+                            return "${workspaceFolder}/node_modules/.bin/next"
+                        elseif vim.fn.glob("node_modules/.bin/svelte-kit") ~= "" then
+                            return "${workspaceFolder}/node_modules/.bin/svelte-kit"
+                        elseif vim.fn.glob("node_modules/.bin/vue-cli-service") ~= "" then
+                            return "${workspaceFolder}/node_modules/.bin/vue-cli-service"
+                        elseif vim.fn.glob("node_modules/.bin/solid-start") ~= "" then
+                            return "${workspaceFolder}/node_modules/.bin/solid-start"
+                        elseif vim.fn.glob("node_modules/.bin/vite") ~= "" then
+                            return "${workspaceFolder}/node_modules/.bin/vite"
+                        else
+                            error("No supported framework detected!")
+                        end
+                    end,
+                    args = { "dev" },
+                    cwd = "${workspaceFolder}",
+                    sourceMaps = true,
+                    protocol = "inspector",
+                    console = "integratedTerminal",
+                    skipFiles = { "<node_internals>/**" },
+                    serverReadyAction = {
+                        action = "debugWithChrome",
+                        killOnServerStop = true,
+                        pattern = "- Local:.+(https?://.+)",
+                        uriFormat = "%s",
+                        webRoot = "${workspaceFolder}",
+                    },
+                },
+                {
+                    name = "NextJS: Server",
                     type = "pwa-node",
                     request = "attach",
                     port = 9231,
@@ -220,14 +255,15 @@ return {
                     cwd = "${workspaceFolder}",
                 },
                 {
-                    name = "Next.js: debug client-side",
+                    name = "NextJS: Client",
                     type = "chrome",
                     request = "launch",
                     url = "http://localhost:3000",
                     webRoot = "${workspaceFolder}",
-                    sourceMaps = true, -- https://github.com/vercel/next.js/issues/56702#issuecomment-1913443304
+                    sourceMaps = true,
                     sourceMapPathOverrides = {
-                        ["webpack://_N_E/*"] = "${webRoot}/*",
+                        ["/turbopack/[project]/*"] = "${workspaceFolder}/*",
+                        ["/src/*"] = "${workspaceFolder}/src/*",
                     },
                 },
                 -- {
