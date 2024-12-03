@@ -47,6 +47,9 @@ export PATH="$PATH:/Users/erik/.cache/lm-studio/bin"
 
 export STARSHIP_CONFIG=~/.config/starship/starship.toml
 
+export ZVM_CURSOR_STYLE_ENABLED=false
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#666666"
+
 eval "$(/opt/homebrew/bin/brew shellenv)"
 if [[ "${widgets[zle-keymap-select]#user:}" == "starship_zle-keymap-select" || \
       "${widgets[zle-keymap-select]#user:}" == "starship_zle-keymap-select-wrapped" ]]; then
@@ -77,3 +80,5 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+export GOPATH=/Users/erik/.go
+export PATH="/Users/erik/.local/bin:$PATH"

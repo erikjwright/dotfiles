@@ -1,45 +1,34 @@
 return {
-    "nvim-treesitter/nvim-treesitter",
-    enable = false,
-    build = ":TSUpdate",
-    config = function () 
-      local configs = require("nvim-treesitter.configs")
-
-      configs.setup({
-  ensure_installed = {
-	  "astro",
-	  "c",
-	  -- "comment",
-	  "dockerfile",
-	  "git_rebase",
-	  "lua",
-	  "markdown",
-	  "markdown_inline",
-	  "query",
-	  "vim",
-	  "vimdoc",
-	"gitcommit",
-	"gitignore",
-	"graphql",
-	"javascript",
-	"jq",
-	"jsdoc",
-	"json",
-	"prisma",
-	"rust",
-	"solidity",
-	"sql",
-	"svelte",
-	"terraform",
-	"toml",
-	"typescript",
-	"yaml",
-	"zig"
+  'nvim-treesitter/nvim-treesitter',
+  build = ':TSUpdate',
+  main = 'nvim-treesitter.configs',
+  opts = {
+    ensure_installed = {
+      'bash',
+      'c',
+      'diff',
+      'go',
+      'html',
+      'javascript',
+      'lua',
+      'luadoc',
+      'markdown',
+      'markdown_inline',
+      'python',
+      'query',
+      'ruby',
+      'rust',
+      'typescript',
+      'tsx',
+      'vim',
+      'vimdoc',
+    },
+    auto_install = true,
+    highlight = {
+      enable = true,
+      additional_vim_regex_highlighting = false,
+    },
   },
-          sync_install = false,
-          highlight = { enable = true},
-          indent = { enable = false},  
-	    additional_vim_regex_highlighting = false
-    })
-    end
- }
+  --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
+  --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+}

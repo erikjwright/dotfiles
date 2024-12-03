@@ -1,57 +1,136 @@
 return {
-    "williamboman/mason-lspconfig.nvim",
-    dependencies = {
-        "williamboman/mason.nvim",
-        "neovim/nvim-lspconfig",
-        "hrsh7th/cmp-nvim-lsp",
+    {
+        "mrcjkb/rustaceanvim",
+        version = "^5",
+        lazy = false,
     },
-    config = function()
-        require("mason").setup()
-        require("mason-lspconfig").setup()
+    {
+        "folke/lazydev.nvim",
+        ft = "lua",
+        opts = {
+            library = {
+                { path = "luvit-meta/library", words = { "vim%.uv" } },
+            },
+        },
+    },
+    { "Bilal2453/luvit-meta", lazy = true },
+    {
+        "neovim/nvim-lspconfig",
+        dependencies = {
+            { "williamboman/mason.nvim", config = true },
+            "williamboman/mason-lspconfig.nvim",
+            "WhoIsSethDaniel/mason-tool-installer.nvim",
+            { "j-hui/fidget.nvim", opts = {} },
+            "hrsh7th/cmp-nvim-lsp",
+        },
+        config = function()
+            vim.api.nvim_create_autocmd("LspAttach", {
+                group = vim.api.nvim_create_augroup("kickstart-lsp-attach", { clear = true }),
+                callback = function(event)
+                    local map = function(keys, func, desc, mode)
+                        mode = mode or "n"
+                        vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
+                    end
+                    --
+                    -- map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+                    -- map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+                    -- map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
+                    -- map('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementation')
+                    -- map('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
+                    -- map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
+                    -- map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+                    -- map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
+                    -- map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
 
-        local capabilities = require("cmp_nvim_lsp").default_capabilities()
+                    local client = vim.lsp.get_client_by_id(event.data.client_id)
+                    if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+                        local highlight_augroup =
+                            vim.api.nvim_create_augroup("kickstart-lsp-highlight", { clear = false })
+                        vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+                            buffer = event.buf,
+                            group = highlight_augroup,
+                            callback = vim.lsp.buf.document_highlight,
+                        })
 
-        local on_attach = function(_, bufnr)
-            local opts = { noremap = true, silent = true, buffer = bufnr }
+                        vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+                            buffer = event.buf,
+                            group = highlight_augroup,
+                            callback = vim.lsp.buf.clear_references,
+                        })
 
-            -- See `:help vim.lsp.*` for documentation on any of the below functions
-            vim.keymap.set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", opts)
-            vim.keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-            vim.keymap.set("n", "?", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-            vim.keymap.set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
-            vim.keymap.set("n", "g?", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-            vim.keymap.set("n", "td", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
-            -- vim.keymap.set("n", "rn", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-            vim.keymap.set("n", "af", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-            vim.keymap.set("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
-            vim.keymap.set("n", "<leader>e", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
-            vim.keymap.set("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
-            vim.keymap.set("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
-            vim.keymap.set("n", "lc", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
-            vim.keymap.set("n", "<leader>=", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
-        end
+                        vim.api.nvim_create_autocmd("LspDetach", {
+                            group = vim.api.nvim_create_augroup("kickstart-lsp-detach", { clear = true }),
+                            callback = function(event2)
+                                vim.lsp.buf.clear_references()
+                                vim.api.nvim_clear_autocmds({ group = "kickstart-lsp-highlight", buffer = event2.buf })
+                            end,
+                        })
+                    end
 
-        require("mason-lspconfig").setup({
-            handlers = {
-                function(server_name)
-                    require("lspconfig")[server_name].setup({
-                        capabilities = capabilities,
-                        on_attach = on_attach,
-                    })
+                    if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+                        map("<leader>th", function()
+                            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
+                        end, "[T]oggle Inlay [H]ints")
+                    end
                 end,
-                ["lua_ls"] = function()
-                    local lspconfig = require("lspconfig")
-                    lspconfig.lua_ls.setup({
-                        settings = {
-                            Lua = {
-                                diagnostics = {
-                                    globals = { "vim" },
-                                },
+            })
+
+            if vim.g.have_nerd_font then
+                local signs = { ERROR = "", WARN = "", INFO = "", HINT = "" }
+                local diagnostic_signs = {}
+                for type, icon in pairs(signs) do
+                    diagnostic_signs[vim.diagnostic.severity[type]] = icon
+                end
+                vim.diagnostic.config({ signs = { text = diagnostic_signs } })
+            end
+
+            local capabilities = vim.lsp.protocol.make_client_capabilities()
+
+            capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
+
+            local servers = {
+                clangd = {},
+                gopls = {},
+                pyright = {},
+                lua_ls = {
+                    settings = {
+                        Lua = {
+                            completion = {
+                                callSnippet = "Replace",
                             },
                         },
-                    })
-                end,
-            },
-        })
-    end,
+                    },
+                },
+            }
+
+            require("mason").setup()
+
+            local ensure_installed = vim.tbl_keys(servers or {})
+
+            vim.list_extend(ensure_installed, {
+                "biome",
+                "ruff",
+                "stylua",
+            })
+
+            require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
+
+            require("mason-lspconfig").setup({
+                handlers = {
+                    function(server_name)
+                        local server = servers[server_name] or {}
+
+                        server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+
+                        require("lspconfig")[server_name].setup(server)
+                    end,
+                },
+            })
+        end,
+    },
+    {
+        "pmizio/typescript-tools.nvim",
+        dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+        opts = {},
+    },
 }
