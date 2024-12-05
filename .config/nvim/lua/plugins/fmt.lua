@@ -1,49 +1,19 @@
 return {
-    "stevearc/conform.nvim",
-    event = { "BufWritePre" },
-    cmd = { "ConformInfo" },
-    keys = {
-        {
-            "<leader>f",
-            function()
-                require("conform").format({ async = true, lsp_format = "fallback" })
-            end,
-            mode = "",
-            desc = "[F]ormat buffer",
-        },
-    },
-    opts = {
-        notify_on_error = false,
-        format_on_save = function(bufnr)
-            local disable_filetypes = { c = true, cpp = true }
-            local lsp_format_opt
-
-            if disable_filetypes[vim.bo[bufnr].filetype] then
-                lsp_format_opt = "never"
-            else
-                lsp_format_opt = "fallback"
-            end
-
-            return {
-                timeout_ms = 500,
-                lsp_format = lsp_format_opt,
-            }
-        end,
-        formatters_by_ft = {
-            astro = { "biome" },
-            c = { "clang-format" },
-            go = { "gofumpt" },
-            javascript = { "biome" },
-            javascriptreact = { "biome" },
-            json = { "biome" },
-            lua = { "stylua" },
-            python = { "ruff" },
-            rust = { "rustfmt" },
-            toml = { "taplo" },
-            typescript = { "biome" },
-            typescriptreact = { "biome" },
-            tsx = { "biome" },
-            yaml = { "yamlfmt" },
-        },
-    },
+	"stevearc/conform.nvim",
+	config = function()
+		require("conform").setup({
+			formatters_by_ft = {
+				c = { "clang-format" },
+				go = { "gofumpt" },
+				javascript = { "biome" },
+				javascriptreact = { "biome" },
+				lua = { "stylua" },
+				python = { "ruff" },
+				rust = { "rustfmt", lsp_format = "fallback" },
+				typescript = { "biome" },
+				typescriptreact = { "biome" },
+			},
+			format_on_save = true,
+		})
+	end,
 }
