@@ -1,17 +1,35 @@
 local wezterm = require("wezterm")
-local config = {}
+local act = wezterm.action
 
--- config.color_scheme = "Catppuccin Mocha"
-config.color_scheme = "tokyonight_night"
-config.enable_tab_bar = false
-config.font = wezterm.font("MesloLGM Nerd Font")
-config.font_size = 12.5
--- config.scrollback_lines = 10000
-config.default_cursor_style = "BlinkingBlock"
-config.cursor_blink_ease_in = "Constant"
-config.cursor_blink_ease_out = "Constant"
-config.window_background_opacity = 0.97
-config.macos_window_background_blur = 100
-config.native_macos_fullscreen_mode = true
+local config = {
+    color_scheme = "tokyonight_night",
+    enable_tab_bar = false,
+    font = wezterm.font("MesloLGM Nerd Font"),
+    font_size = 12.5,
+    scrollback_lines = 10000,
+    default_cursor_style = "BlinkingBlock",
+    cursor_blink_ease_in = "Constant",
+    cursor_blink_ease_out = "Constant",
+    window_background_opacity = 0.97,
+    macos_window_background_blur = 100,
+    native_macos_fullscreen_mode = true,
+    leader = { key = "Space", mods = "CTRL" },
+    keys = {
+        {
+            key = "-",
+            mods = "LEADER",
+            action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
+        },
+        {
+            key = "\\",
+            mods = "LEADER",
+            action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
+        },
+        { key = "l", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Next" }) },
+        { key = "h", mods = "LEADER", action = wezterm.action({ ActivatePaneDirection = "Prev" }) },
+        { key = "k", mods = "LEADER", action = act.ScrollByPage(-0.5) },
+        { key = "j", mods = "LEADER", action = act.ScrollByPage(0.5) },
+    },
+}
 
 return config

@@ -1,18 +1,28 @@
+add_newline = false
+command_timeout = 1500
+
 format = """
-$python\
+$conda\
 $directory\
 $git_branch\
 $git_status\
+$aws\
 $lua\
 $nodejs\
+$python\
 $rust\
 $golang\
 $php\
-$time\
 \n$character"""
 
+right_format = """
+$time\
+"""
+
 [directory]
-style = "fg:#e0af68"
+truncation_length = 1
+# style = "fg:#ff9e64"
+style = "fg:blue"
 format = "[$path ]($style)"
 
 [directory.substitutions]
@@ -22,37 +32,60 @@ format = "[$path ]($style)"
 "Pictures" = " "
 
 [conda]
-format = "[$env]($style)"
+format = '[\($environment\)]($style) '
+style = "fg:purple"
+ignore_base = false
+
+[aws]
+format = 'on [$symbol($profile )(\($region\) )]($style)'
+style = 'fg:yellow'
+symbol = ' '
+
+[aws.region_aliases]
+us-east-1 = 'va'
 
 [git_branch]
 symbol = ""
-format = '[[ $symbol $branch ](fg:#769ff0)]($style)'
+style = "fg:#ff9e64"
+format = '[ $symbol $branch ]($style)'
 
 [git_status]
-format = '[[($all_status$ahead_behind )](fg:#769ff0)]($style)'
+style = "fg:#ff9e64"
+format = '[($all_status$ahead_behind )]($style)'
+# ~/.config/starship.toml
 
 [lua]
-symbol = ""
-format = '[[ $symbol ($version) ](fg:#769ff0)]($style)'
+format = '[ $version](bold $style) '
+style = "fg:blue"
 
 [nodejs]
 symbol = ""
-format = '[[ $symbol ($version) ](fg:#769ff0)]($style)'
+style = "fg:green"
+format = '[ $symbol ($version) ]($style)'
+
+[python]
+format = "[$symbol($version)]($style)"
+style = "fg:green"
+symbol = " "
+
 
 [rust]
 symbol = ""
-format = '[[ $symbol ($version) ](fg:#769ff0)]($style)'
+style = "fg:red"
+format = '[ $symbol ($version) ]($style)'
 
 [golang]
 symbol = ""
-format = '[[ $symbol ($version) ](fg:#769ff0)]($style)'
+style = "fg:blue5"
+format = '[ $symbol ($version) ]($style)'
 
 [php]
 symbol = ""
-format = '[[ $symbol ($version) ](fg:#769ff0)]($style)'
+style = "fg:#212736"
+format = '[ $symbol ($version) ]($style)'
 
 [time]
 disabled = false
-time_format = "%R" 
-format = '[[  $time ](fg:#9ece6a)]($style)'
-
+time_format = "%R"             # Hour:Minute Format
+style = "fg:comment"
+format = '[  $time ]($style)'
