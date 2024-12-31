@@ -33,10 +33,11 @@ return {
                 "solc",
                 "svelte",
                 "tailwindcss",
-                "terraformls",
                 "taplo",
+                "terraformls",
+                "ts_ls",
                 "vacuum",
-                "volar",
+                -- "volar",
                 "yamlls",
                 "zls",
             }

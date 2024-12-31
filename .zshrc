@@ -15,21 +15,6 @@ setopt NO_BEEP
 
 ZVM_CURSOR_STYLE_ENABLED=false
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/erik/.config/miniconda/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/Users/erik/.config/miniconda/etc/profile.d/conda.sh" ]; then
-        . "/Users/erik/.config/miniconda/etc/profile.d/conda.sh"
-    else
-        export PATH="/Users/erik/.config/miniconda/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-
 # homebrew
 PATH="/opt/homebrew/bin/direnv:$PATH"
 export EDITOR="/opt/homebrew/bin/nvim"
@@ -84,3 +69,19 @@ export GOPATH=/Users/erik/.go
 export PATH="/Users/erik/.local/bin:$PATH"
 export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
 export PATH="$PATH:$HOME/.rvm/bin"
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/erik/.config/miniconda/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/erik/.config/miniconda/etc/profile.d/conda.sh" ]; then
+        . "/Users/erik/.config/miniconda/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/erik/.config/miniconda/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
