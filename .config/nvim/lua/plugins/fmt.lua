@@ -8,7 +8,7 @@ return {
                 javascript = { "biome" },
                 javascriptreact = { "biome" },
                 lua = { "stylua" },
-                markdown = { "mdformat" },
+                markdown = { "markdownlint" },
                 python = { "ruff_format" },
                 rust = { "rustfmt", lsp_format = "fallback" },
                 typescript = { "biome" },

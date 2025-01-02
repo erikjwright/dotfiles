@@ -43,8 +43,4 @@ return {
     --         vim.cmd([[cab cc CodeCompanion]])
     --     end,
     -- },
-    {
-        "MeanderingProgrammer/render-markdown.nvim",
-        ft = { "markdown", "codecompanion" },
-    },
 }

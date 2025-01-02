@@ -32,7 +32,6 @@ return {
                     "lua-language-server",
                     "luacheck",
                     "markdownlint",
-                    "mdformat",
                     "mypy",
                     "ruff",
                     "shellcheck",
