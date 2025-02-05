@@ -1,0 +1,37 @@
+# The syntax is "key = value". The whitespace around the
+# equals doesn't matter.
+# background = 282c34
+# foreground = ffffff
+
+# Comments start with a `#` and are only valid on their own line.
+# Blank lines are ignored!
+
+keybind = ctrl+z=close_surface
+# keybind = ctrl+d=new_split:right
+# # split
+keybind = cmd+s>\=new_split:right
+keybind = cmd+s>-=new_split:down
+
+keybind = cmd+s>j=goto_split:bottom
+keybind = cmd+s>k=goto_split:top
+keybind = cmd+s>h=goto_split:left
+keybind = cmd+s>l=goto_split:right
+
+keybind = cmd+s>z=toggle_split_zoom
+
+keybind = cmd+s>e=equalize_splits
+
+# Empty values reset the configuration to the default value
+font-family =
+theme = tokyonight_night
+# theme = catppuccin-frappe
+
+cursor-style = block
+# cursor-style-blink = false
+shell-integration = zsh
+shell-integration-features = no-cursor
+
+# other
+copy-on-select = clipboard
+
+
