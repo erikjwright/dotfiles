@@ -1,4 +1,0 @@
-0000000000000000000000000000000000000000 882e48181a2729f7856a5fac67a9fe46981c95ab Erik Wright <erik@Eriks-Air.homenet.telecomitalia.it> 1738691010 +0100	clone: from https://github.com/erikjwright/nix-system.git
-882e48181a2729f7856a5fac67a9fe46981c95ab ab720a7a7675e32bbd41b84215da35d941983f37 Erik Wright <erik@Eriks-Air.homenet.telecomitalia.it> 1738693733 +0100	commit: add readme
-ab720a7a7675e32bbd41b84215da35d941983f37 c022fb1a7a8111195c984166a90427d54ce011d9 Erik Wright <erik@Eriks-Air.homenet.telecomitalia.it> 1738695210 +0100	commit: update flake.nix
-c022fb1a7a8111195c984166a90427d54ce011d9 060bcdd931ff8736b170b988ad25cf770a30bcf4 Erik Wright <hey@erikwright.dev> 1738695278 +0100	commit (amend): update flake.nix
