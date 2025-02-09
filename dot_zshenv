@@ -1,0 +1,9 @@
+export EDITOR=nvim
+
+export PATH=$HOME/.local/bin:$PATH
+
+# export ZDOTDIR=$XDG_CONFIG_HOME/zsh
+export ZDOTDIR=.config/zsh
+export HISTFILE=.config/zsh/.zsh_history
+# export ZSH_CACHE_DIR=$XDG_CACHE_HOME/zsh
+

@@ -1,0 +1,31 @@
+sudo ln -s .config/zsh/.zshenv .
+l
+sudo reboot
+Hypr
+Hyprland
+nvim .config/zsh/.zshenv
+exit
+clear
+exit
+Hyprland
+nvim .config/zsh/.zshenv
+l
+nvim .zshenv
+exit
+sudo reboot
+nvim .config/zsh/.zshenv
+rm -rf .zshenv
+mv .config/zsh/.zshenv .
+l
+sudo reboot
+Hyprland
+nvim .zshenv
+source .zshenv
+exit
+: 1739048405:0;l
+: 1739048416:0;cat .zshenv
+: 1739048439:0;echo $XDG_CONFIG_HOME
+: 1739048445:0;Hyprland
+: 1739048467:0;echo $XDG_CONFIG_HOME
+: 1739048488:0;l
+: 1739048531:0;mv .zsh_history .config/zsh
