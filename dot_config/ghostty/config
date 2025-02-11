@@ -34,5 +34,6 @@ shell-integration-features = no-cursor
 
 # other
 copy-on-select = clipboard
+app-notifications = no-clipboard-copy
 
 fullscreen = true
