@@ -22,8 +22,8 @@ keybind = cmd+s>z=toggle_split_zoom
 keybind = cmd+s>e=equalize_splits
 
 # Empty values reset the configuration to the default value
-font-family =
-font-size = 9
+font-family = "Meslo LG"
+font-size = 8.5
 theme = tokyonight_night
 # theme = catppuccin-frappe
 
@@ -35,3 +35,4 @@ shell-integration-features = no-cursor
 # other
 copy-on-select = clipboard
 
+fullscreen = true

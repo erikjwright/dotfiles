@@ -258,25 +258,25 @@ now(function()
 
   vim.lsp.enable("luals")
 
-  vim.lsp.config["pylyzer"] = {
-    cmd = { "pylyzer" },
-    filetypes = { "python" },
-    root_markers = { "pyproject.toml" },
-  }
-
-  vim.lsp.enable("pylyzer")
-
-  --
-  -- vim.lsp.config["ruff"] = {
-  --   -- on_attach = function(client)
-  --   --   client.server_capabilities.hoverProvider = false
-  --   -- end,
-  --   cmd = { "ruff" },
+  -- vim.lsp.config["pylyzer"] = {
+  --   cmd = { "pylyzer" },
   --   filetypes = { "python" },
   --   root_markers = { "pyproject.toml" },
   -- }
   --
-  -- vim.lsp.enable("ruff")
+  -- vim.lsp.enable("pylyzer")
+  --
+
+  vim.lsp.config["pyright"] = {
+    -- on_attach = function(client)
+    --   client.server_capabilities.hoverProvider = false
+    -- end,
+cmd = { "pyright-langserver", "--stdio" },
+    filetypes = { "python" },
+    root_markers = { "pyproject.toml" },
+  }
+
+  vim.lsp.enable("pyright")
 
   add({
     source = "pmizio/typescript-tools.nvim",
