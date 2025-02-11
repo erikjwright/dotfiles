@@ -175,8 +175,88 @@ require("lazy").setup({
         },
       },
     },
+    ---@type LazySpec
+    {
+      "mikavilpas/yazi.nvim",
+      event = "VeryLazy",
+      keys = {
+        -- 👇 in this section, choose your own keymappings!
+        {
+          "<leader>e",
+          mode = { "n", "v" },
+          "<cmd>Yazi<cr>",
+          desc = "Open yazi at the current file",
+        },
+        {
+          -- Open in the current working directory
+          "<leader>cw",
+          "<cmd>Yazi cwd<cr>",
+          desc = "Open the file manager in nvim's working directory",
+        },
+        {
+          "<c-up>",
+          "<cmd>Yazi toggle<cr>",
+          desc = "Resume the last yazi session",
+        },
+      },
+      ---@type YaziConfig
+      opts = {
+        open_for_directories = true,
+        keymaps = {
+          show_help = "<f1>",
+        },
+      },
+    },
+    {
+      "folke/snacks.nvim",
+      ---@type snacks.Config
+      opts = {
+        picker = {
+          -- your picker configuration comes here
+          -- or leave it empty to use the default settings
+          -- refer to the configuration section below
+        },
+      },
+      keys = {
+        -- Top Pickers & Explorer
+        {
+          "<leader><space>",
+          function()
+            Snacks.picker.smart()
+          end,
+          desc = "Smart Find Files",
+        },
+        {
+          "<leader>,",
+          function()
+            Snacks.picker.buffers()
+          end,
+          desc = "Buffers",
+        },
+        {
+          "<leader>/",
+          function()
+            Snacks.picker.grep()
+          end,
+          desc = "Grep",
+        },
+        {
+          "<leader>:",
+          function()
+            Snacks.picker.command_history()
+          end,
+          desc = "Command History",
+        },
+        {
+          "<leader>n",
+          function()
+            Snacks.picker.notifications()
+          end,
+          desc = "Notification History",
+        },
+      },
+    },
   },
-
   install = { colorscheme = { "tokyonight-night" } },
   checker = { enabled = true },
 })
