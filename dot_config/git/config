@@ -1,7 +1,7 @@
 # This is Git's per-user configuration file.
 [user]
 # Please adapt and uncomment the following lines:
-	name = Erik Wright
+	name = erikjwright
 	email = hey@erikwright.dev
 [init]
 	defaultBranch = main
