@@ -24,7 +24,7 @@ keybind = cmd+s>e=equalize_splits
 # Empty values reset the configuration to the default value
 # font-family = MonaspiceNe NF
 font-family = MonaspiceNe NF
-font-size = 11
+font-size = 13
 font-feature = -calt
 font-feature = -liga
 font-feature = -dlig
@@ -36,6 +36,9 @@ cursor-style = block
 # cursor-style-blink = false
 shell-integration = zsh
 shell-integration-features = no-cursor
+
+window-padding-x = 12
+window-padding-y = 8
 
 # other
 copy-on-select = clipboard
