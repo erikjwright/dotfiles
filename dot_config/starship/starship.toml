@@ -52,7 +52,7 @@ format = '[ $symbol $branch ]($style)'
 
 [git_status]
 style = "fg:#ff9e64"
-format = '[($all_status$ahead_behind )]($style)'
+format = '[($all_status$ahead_behind ) ]($style)'
 # ~/.config/starship.toml
 
 [lua]
