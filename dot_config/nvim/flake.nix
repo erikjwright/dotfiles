@@ -21,6 +21,7 @@
         devShells.default = mkShell {
           buildInputs = [
             lua-language-server
+            nixfmt-rfc-style
             stylua
           ];
         };
