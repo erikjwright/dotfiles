@@ -16,8 +16,22 @@ vim.opt.rtp:prepend(lazypath)
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
+
 vim.opt.number = true
 vim.opt.relativenumber = true
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.softtabstop = 2
+vim.opt.expandtab = true
+
+vim.opt.listchars:append({
+  -- tab = "·",
+  tab = "..",
+  trail = "￮",
+  extends = "▶",
+  precedes = "◀",
+  nbsp = "⏑",
+})
 
 vim.api.nvim_create_autocmd("TextYankPost", {
   group = vim.api.nvim_create_augroup("highlight_yank", {}),
@@ -123,6 +137,7 @@ require("lazy").setup({
       opts = {
         formatters_by_ft = {
           lua = { "stylua" },
+          nix = { "nixfmt" },
           -- python = { "isort", "black" },
           -- rust = { "rustfmt", lsp_format = "fallback" },
           -- javascript = { "prettierd", "prettier", stop_after_first = true },
