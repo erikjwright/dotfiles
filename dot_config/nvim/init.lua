@@ -22,6 +22,7 @@ vim.opt.relativenumber = true
 
 vim.opt.guicursor = "n-v-c-i:block-blinkwait1000-blinkon500-blinkoff500"
 vim.opt.signcolumn = "yes"
+vim.opt.scrolloff = 999
 
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
@@ -64,21 +65,27 @@ vim.lsp.config["luals"] = {
 
 vim.lsp.enable("luals")
 
--- vim.lsp.config["pylyzer"] = {
---   cmd = { "pylyzer", "--server" },
---   filetypes = { "python" },
---   root_markers = { "pyproject.toml" },
--- }
---
--- vim.lsp.enable("pylyzer")
-
-vim.lsp.config["pylsp"] = {
-  cmd = { "pylsp" },
+vim.lsp.config["pyright"] = {
+  cmd = { "pyright-langserver", "--stdio" },
   filetypes = { "python" },
   root_markers = { "pyproject.toml" },
+  settings = {
+    python = {
+      analysis = {
+        autoSearchPaths = true,
+        diagnosticMode = "workspace",
+        useLibraryCodeForTypes = true,
+      },
+    },
+  },
+  capabilities = {
+    general = {
+      positionEncodings = { "utf-16" },
+    },
+  },
 }
 
-vim.lsp.enable("pylsp")
+vim.lsp.enable("pyright")
 
 require("lazy").setup({
   spec = {
@@ -120,6 +127,7 @@ require("lazy").setup({
             "query",
             "regex",
             "typescript",
+            "tsx",
             "vim",
             "vimdoc",
           },
@@ -132,7 +140,7 @@ require("lazy").setup({
     },
     {
       "folke/trouble.nvim",
-      opts = {}, -- for default options, refer to the configuration section for custom setup.
+      opts = {},
       cmd = "Trouble",
       keys = {
         {
@@ -152,7 +160,7 @@ require("lazy").setup({
         },
         {
           "<leader>cl",
-          "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+          "<cmd>Trouble lsp toggle focus=false<cr>",
           desc = "LSP Definitions / references / ... (Trouble)",
         },
         {
@@ -217,20 +225,18 @@ require("lazy").setup({
       },
     },
     {
-      "saghen/blink.cmp",
-      version = "*",
-      opts = {
-        sources = {
-          default = { "lazydev", "lsp", "path", "snippets", "buffer" },
-          providers = {
-            lazydev = {
-              name = "LazyDev",
-              module = "lazydev.integrations.blink",
-              score_offset = 100,
-            },
-          },
-        },
+      "pmizio/typescript-tools.nvim",
+      dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+      opts = {},
+    },
+    {
+      "luckasRanarison/tailwind-tools.nvim",
+      name = "tailwind-tools",
+      build = ":UpdateRemotePlugins",
+      dependencies = {
+        "nvim-treesitter/nvim-treesitter",
       },
+      opts = {}, -- your configuration
     },
     { "github/copilot.vim" },
     {
@@ -260,6 +266,28 @@ require("lazy").setup({
         --       },
         --     },
         --   },
+      },
+    },
+    {
+      "saghen/blink.cmp",
+      version = "*",
+      dependencies = { "olimorris/codecompanion.nvim" },
+      opts = {
+        sources = {
+          default = { "codecompanion", "lazydev", "lsp", "path", "snippets", "buffer" },
+          providers = {
+            codecompanion = {
+              name = "CodeCompanion",
+              module = "codecompanion.providers.completion.blink",
+              enabled = true,
+            },
+            lazydev = {
+              name = "LazyDev",
+              module = "lazydev.integrations.blink",
+              score_offset = 100,
+            },
+          },
+        },
       },
     },
     {
@@ -446,6 +474,31 @@ require("lazy").setup({
         dap.listeners.after.event_initialized["dapui_config"] = dapui.open
         dap.listeners.before.event_terminated["dapui_config"] = dapui.close
         dap.listeners.before.event_exited["dapui_config"] = dapui.close
+      end,
+    },
+    {
+      "mfussenegger/nvim-lint",
+      event = { "BufReadPre", "BufNewFile" },
+      config = function()
+        local lint = require("lint")
+
+        lint.linters_by_ft = {
+          python = { "ruff" },
+        }
+
+        local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
+
+        vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
+          group = lint_augroup,
+          callback = function()
+            -- Only run the linter in buffers that you can modify in order to
+            -- avoid superfluous noise, notably within the handy LSP pop-ups that
+            -- describe the hovered symbol using Markdown.
+            if vim.opt_local.modifiable:get() then
+              lint.try_lint()
+            end
+          end,
+        })
       end,
     },
     {
