@@ -47,6 +47,26 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
+-- vim.api.nvim_create_autocmd("BufEnter", {
+--   group = vim.api.nvim_create_augroup("HelpReplaceWindow", { clear = true }),
+--   callback = function()
+--     if vim.bo.filetype == "help" or vim.bo.filetype == "h" and vim.b.already_opened == nil then
+--       -- remember we already opened this buffer
+--       vim.b.already_opened = true
+--
+--       -- close the original window
+--       local original_win = vim.fn.win_getid(vim.fn.winnr("#"))
+--       local help_win = vim.api.nvim_get_current_win()
+--       if original_win ~= help_win then
+--         vim.api.nvim_win_close(original_win, false)
+--       end
+--
+--       -- put the help buffer in the buffer list
+--       vim.bo.buflisted = true
+--     end
+--   end,
+-- })
+
 vim.lsp.config["luals"] = {
   cmd = { "lua-language-server" },
   filetypes = { "lua" },
@@ -86,6 +106,18 @@ vim.lsp.config["pyright"] = {
 }
 
 vim.lsp.enable("pyright")
+
+vim.lsp.config["yaml"] = {
+  cmd = { "yaml-language-server", "--stdio" },
+  filetypes = { "yaml" },
+  capabilities = {
+    general = {
+      positionEncodings = { "utf-16" },
+    },
+  },
+}
+
+vim.lsp.enable("yaml")
 
 require("lazy").setup({
   spec = {
@@ -130,6 +162,7 @@ require("lazy").setup({
             "tsx",
             "vim",
             "vimdoc",
+            "yaml",
           },
           auto_install = false,
           sync_install = false,
@@ -237,6 +270,14 @@ require("lazy").setup({
         "nvim-treesitter/nvim-treesitter",
       },
       opts = {}, -- your configuration
+    },
+    {
+      "seblyng/roslyn.nvim",
+      ft = "cs",
+      opts = {
+        -- your configuration comes here; leave empty for default settings
+        exe = "Microsoft.CodeAnalysis.LanguageServer",
+      },
     },
     { "github/copilot.vim" },
     {
@@ -477,6 +518,16 @@ require("lazy").setup({
       end,
     },
     {
+      "mfussenegger/nvim-dap-python",
+      dependencies = {
+        "mfussenegger/nvim-dap",
+      },
+      config = function()
+        require("dap-python").setup("uv")
+        -- require('dap-python').test_runner = 'pytest'
+      end,
+    },
+    {
       "mfussenegger/nvim-lint",
       event = { "BufReadPre", "BufNewFile" },
       config = function()
@@ -502,13 +553,26 @@ require("lazy").setup({
       end,
     },
     {
-      "mfussenegger/nvim-dap-python",
+      "kristijanhusak/vim-dadbod-ui",
       dependencies = {
-        "mfussenegger/nvim-dap",
+        { "tpope/vim-dadbod", lazy = true },
+        { "kristijanhusak/vim-dadbod-completion", ft = { "sql", "mysql", "plsql" }, lazy = true },
       },
-      config = function()
-        require("dap-python").setup("uv")
-        -- require('dap-python').test_runner = 'pytest'
+      cmd = {
+        "DBUI",
+        "DBUIToggle",
+        "DBUIAddConnection",
+        "DBUIFindBuffer",
+      },
+      init = function()
+        vim.g.db_ui_use_nerd_fonts = 1
+        vim.g.db_ui_table_helpers = {
+          mssql = {
+            Count = "SELECT COUNT(*) FROM {optional_schema}{table}",
+            List = "SELECT TOP 100 * FROM {optional_schema}{table} ORDER BY 1",
+            Describe = "sp_help {optional_schema}{table}",
+          },
+        }
       end,
     },
   },
