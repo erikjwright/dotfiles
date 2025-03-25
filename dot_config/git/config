@@ -5,7 +5,6 @@
 	email = hey@erikwright.dev
 [init]
 	defaultBranch = main
-
 [core]
 	editor = nvim
 [alias]
@@ -13,3 +12,13 @@
 	br = branch
 	ci = commit
 	st = status
+[merge]
+	tool = nvimdiff
+[diff]
+	tool = nvimdiff
+[mergetool]
+	path = nvim
+[difftool]
+	path = nvim
+[pull]
+	rebase = true

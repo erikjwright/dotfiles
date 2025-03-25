@@ -1,2 +1,2 @@
 use flake
-use flake ~/nix-config/flakes/python/flake.nix --impure
+# use flake ~/nix-config/flakes/python/flake.nix --impure

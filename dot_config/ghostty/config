@@ -32,7 +32,7 @@ theme = tokyonight_night
 
 cursor-style = block
 # cursor-style-blink = false
-shell-integration = zsh
+# shell-integration = zsh
 shell-integration-features = no-cursor
 
 window-padding-x = 12

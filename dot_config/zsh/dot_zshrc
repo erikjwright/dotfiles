@@ -9,6 +9,13 @@ zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 bindkey '^[[A' up-line-or-search
 bindkey '^[[B' down-line-or-search
 
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "$key[Up]" up-line-or-beginning-search
+bindkey "$key[Down]" down-line-or-beginning-search
+
 setopt NO_BEEP
 
 ZVM_CURSOR_STYLE_ENABLED=false
