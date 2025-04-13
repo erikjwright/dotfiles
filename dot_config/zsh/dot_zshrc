@@ -1,0 +1,118 @@
+if [ -n "${GHOSTTY_RESOURCES_DIR}" ]; then
+    source "${GHOSTTY_RESOURCES_DIR}/shell-integration/zsh/ghostty-integration"
+fi
+
+alias l="eza -la"
+alias ls="eza"
+alias cd="z"
+
+autoload -Uz compinit && compinit
+autoload predict-on
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
+
+bindkey '^[[A' up-line-or-search
+bindkey '^[[B' down-line-or-search
+
+setopt NO_BEEP
+
+ZVM_CURSOR_STYLE_ENABLED=false
+
+git config --global alias.co checkout
+git config --global alias.br branch
+git config --global alias.ci commit
+git config --global alias.st status
+
+# homebrew
+# PATH="/opt/homebrew/bin/direnv:$PATH"
+# export EDITOR="/run/current-system/sw/bin/nvim"
+export EDITOR=nvim
+
+# wezterm cli
+# WEZTERM_PATH="/Applications/WezTerm.app/Contents/MacOS"
+# export PATH="$WEZTERM_PATH:$PATH"
+
+# bun
+# export BUN_INSTALL="$HOME/.bun"
+# export PATH="$BUN_INSTALL/bin:$PATH"
+# bun completions
+# [ -s "/Users/erik/.bun/_bun" ] && source "/Users/erik/.bun/_bun"
+
+# nvm
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+# pnpm
+# export PNPM_HOME="/Users/erik/Library/pnpm"
+# case ":$PATH:" in
+#   *":$PNPM_HOME:"*) ;;
+#   *) export PATH="$PNPM_HOME:$PATH" ;;
+# esac
+# pnpm end
+
+# Added by LM Studio CLI (lms)
+# export PATH="$PATH:/Users/erik/.cache/lm-studio/bin"
+
+export STARSHIP_CONFIG=~/.config/starship/starship.toml
+
+export ZVM_CURSOR_STYLE_ENABLED=false
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#666666"
+
+# eval "$(/opt/homebrew/bin/brew shellenv)"
+if [[ "${widgets[zle-keymap-select]#user:}" == "starship_zle-keymap-select" || \
+      "${widgets[zle-keymap-select]#user:}" == "starship_zle-keymap-select-wrapped" ]]; then
+    zle -N zle-keymap-select "";
+fi
+eval "$(starship init zsh)"
+eval "$(direnv hook zsh)"
+# eval "$(zoxide init zsh)"
+
+# . "$HOME/.cargo/env"
+. <(fzf --zsh)
+# . $(brew --prefix)/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+# . $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# export GOPATH=/Users/erik/.go
+# export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+# export PATH="$PATH:$HOME/.rvm/bin"
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+# __conda_setup="$('/Users/erik/.miniconda/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+# if [ $? -eq 0 ]; then
+#     eval "$__conda_setup"
+# else
+#     if [ -f "/Users/erik/.miniconda/etc/profile.d/conda.sh" ]; then
+#         . "/Users/erik/.miniconda/etc/profile.d/conda.sh"
+#     else
+#         export PATH="/Users/erik/.miniconda/bin:$PATH"
+#     fi
+# fi
+# unset __conda_setup
+# <<< conda initialize <<<
+
+function f() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
+
+# Added by Windsurf
+# export PATH="/Users/erik/.codeium/windsurf/bin:$PATH"
+
+# export PATH="/usr/local/nvim/bin:$PATH"
+
+export ZK_NOTEBOOK_DIR="$HOME/Documents/notebook"
+
+export PATH="$HOME/.local/bin:$PATH"
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/erik/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions
+
+export DIRENV_SKIP_TIMEOUT=TRUE
+

@@ -1,0 +1,48 @@
+{
+  "mcpServers": {
+    "fetch": {
+      "command": "uvx",
+      "disabled": false,
+      "args": [
+        "mcp-server-fetch"
+      ]
+    },
+    "everything": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-everything"
+      ]
+    },
+    "git": {
+      "command": "uvx",
+      "disabled" : true,
+      "args": [
+        "mcp-server-git",
+        "--repository",
+        "/path/to/any-local-git-repo"
+      ]
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/path/to/anyfolder"
+      ]
+    },
+    "puppeteer": {
+      "command": "docker",
+      "disabled" : true,
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "--init",
+        "-e",
+        "DOCKER_CONTAINER=true",
+        "mcp/puppeteer"
+      ]
+    }
+  }
+}

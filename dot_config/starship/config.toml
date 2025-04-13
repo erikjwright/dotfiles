@@ -1,0 +1,92 @@
+add_newline = false
+command_timeout = 1500
+
+format = """
+$conda\
+$directory\
+$git_branch\
+$git_status\
+$aws\
+$lua\
+$nodejs\
+$python\
+$rust\
+$golang\
+$php\
+\n$character
+"""
+
+right_format = """
+$time\
+"""
+
+[directory]
+truncation_length = 3
+# style = "fg:#ff9e64"
+style = "fg:blue"
+format = "[$path ]($style)"
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
+
+[conda]
+format = '[\($environment\)]($style) '
+style = "fg:purple"
+ignore_base = false
+
+[aws]
+format = 'on [$symbol($profile )(\($region\) )]($style)'
+style = 'fg:yellow'
+symbol = ' '
+
+[aws.region_aliases]
+us-east-1 = 'va'
+
+[git_branch]
+symbol = ""
+style = "fg:#ff9e64"
+format = '[ $symbol $branch ]($style)'
+
+[git_status]
+style = "fg:#ff9e64"
+format = '[($all_status$ahead_behind ) ]($style)'
+# ~/.config/starship.toml
+
+[lua]
+format = '[ $version](bold $style) '
+style = "fg:blue"
+
+[nodejs]
+symbol = ""
+style = "fg:green"
+format = '[ $symbol ($version) ]($style)'
+
+[python]
+format = "[$symbol($version)]($style)"
+style = "fg:green"
+symbol = " "
+
+
+[rust]
+symbol = ""
+style = "fg:red"
+format = '[ $symbol ($version) ]($style)'
+
+[golang]
+symbol = ""
+style = "fg:blue5"
+format = '[ $symbol ($version) ]($style)'
+
+[php]
+symbol = ""
+style = "fg:#212736"
+format = '[ $symbol ($version) ]($style)'
+
+[time]
+disabled = false
+time_format = "%R"             # Hour:Minute Format
+style = "fg:comment"
+format = '[  $time ]($style)'
